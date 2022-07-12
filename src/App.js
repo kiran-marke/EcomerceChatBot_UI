@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
-import './static/css/chat_interface.css';
-import './static/css/temporary.css';
+import './static/css/App.css'
 import MessagesContainer from './components/MessageContainer';
 import NewMessage from './components/NewMessage';
 import Login from './components/Login';
