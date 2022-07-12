@@ -3,22 +3,15 @@ import './static/css/App.css'
 import MessagesContainer from './components/MessageContainer';
 import NewMessage from './components/NewMessage';
 import Login from './components/Login';
-import { useSessionStorage } from './components/useSessionStorage';
 
 const initial_messages = []
 
-function setToken(userToken) {
-  sessionStorage.setItem('access_token', JSON.stringify(userToken));
-}
-
-function getToken() {
+function getSessionToken() {
   const tokenString = sessionStorage.getItem('access_token');
-
-  console.log("access_token username" + tokenString)
   const userToken = JSON.parse(tokenString);
   if (userToken == undefined)
-    return ''
-  return userToken.access_token
+    return null
+  return userToken
 }
 
 const ChatApp = () => {
@@ -27,12 +20,16 @@ const ChatApp = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [token, setToken] = useSessionStorage('access_token', '');
+  const [token, setToken] = useState(()=> getSessionToken());
+
+  function setSessionToken(userToken) {
+    sessionStorage.setItem('access_token', JSON.stringify(userToken.access_token));
+    setToken(userToken.access_token)
+  }
 
   const submitCallHandler = (newMessageData) => {
   
     setMessages(prevMessages => {
-      console.log(newMessageData);
       return [...prevMessages, newMessageData]
     });
   };
@@ -45,10 +42,11 @@ const ChatApp = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'authorization': getToken(),
+            'authorization': token,
           }
         })
         if (!response.ok) {
+          
           throw new Error(
             `This is an HTTP error: The status is ${response.status}`
           );
@@ -68,12 +66,14 @@ const ChatApp = () => {
         setLoading(false);
       }
     }
-    getData()
-  }, [])
+    if (token) {
+      console.log("getdata() is called!", token)
+      getData()
+    }
+  }, [token])
 
   if (!token) {
-    console.log("Still in login")
-    return <Login setToken={setToken} />
+    return <Login setSessionToken={setSessionToken} />
   }
 
   return (

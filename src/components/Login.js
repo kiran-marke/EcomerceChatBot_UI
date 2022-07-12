@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import '../static/css/Login.css';
 
 async function loginUser(credentials) {
-
-    console.log("credentials" + credentials.username)
-    console.log("credentials" + credentials.password)
     return fetch('http://localhost:8000/auth/login', {
       method: 'POST',
       headers: {
@@ -17,7 +14,7 @@ async function loginUser(credentials) {
       .then(data => data.json())
    }
 
-export default function Login({ setToken }) {
+export default function Login({ setSessionToken }) {
 
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
@@ -30,8 +27,7 @@ export default function Login({ setToken }) {
           password
         });
         
-        console.log("response token" + token)
-        setToken(token);
+        setSessionToken(token);
       }
 
     return (
@@ -55,5 +51,5 @@ export default function Login({ setToken }) {
 }
 
 Login.propTypes = {
-    setToken: PropTypes.func.isRequired
+  setSessionToken: PropTypes.func.isRequired
 }

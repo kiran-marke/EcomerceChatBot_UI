@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useSessionStorage } from './useSessionStorage';
 
 async function performtask(taskname) {
 
+    console.log("getToken()", getSessionToken())
     return fetch('http://localhost:8000/performtask', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': getToken(),
+        'Authorization': getSessionToken(),
         'taskname': taskname,
       }
     })
@@ -15,19 +15,16 @@ async function performtask(taskname) {
    }
 
 
-function getToken() {
+function getSessionToken() {
     const tokenString = sessionStorage.getItem('access_token');
-  
-    console.log("access_token username" + tokenString)
     const userToken = JSON.parse(tokenString);
     if (userToken == undefined)
-      return ''
-    return userToken.access_token
+      return null
+    return userToken
   }
   
 const NewMessage = (props) => {
     const [userMessage, setUserMessage] = useState('')
-    const [token, setToken] = useSessionStorage('access_token', getToken());
 
     const messageChangeHanlder = (event) => {
         setUserMessage(event.target.value);
