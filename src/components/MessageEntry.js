@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserMessageBox = (props) => {
+const MessageEntry = (props) => {
     return (
         <li className={`message ${props.appearance} appeared`}>
             <div className="text_wrapper">
@@ -10,4 +10,4 @@ const UserMessageBox = (props) => {
     );
 }
 
-export default UserMessageBox;
+export default MessageEntry;

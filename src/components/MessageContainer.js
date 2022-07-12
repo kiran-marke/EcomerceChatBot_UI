@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import UserMessageBox from './UserMessageBox';
+import UserMessageBox from './MessageEntry';
 import '../static/css/MessageContainer.css';
 
 const MessagesContainer = (props) => {
