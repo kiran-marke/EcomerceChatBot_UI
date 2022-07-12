@@ -7,4 +7,4 @@ To run this application:
 2. npm start    --> This will open react application at http://localhost:3000/
 
 
-Make sure 'EcomerceChatBot' is running at http://localhost:8000/
+Make sure 'EcomerceChatBot' service is running at http://localhost:8000/
